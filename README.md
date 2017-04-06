@@ -3,6 +3,8 @@ VegEasy - 305CDE Assignment
 
 A simple webserver with authentication built with Hapi, Hapi-auth-cookie, and Mongoose
 
+(Make sure you have Mongodb installed before proceeding.)
+
 
 ### Install an app
 

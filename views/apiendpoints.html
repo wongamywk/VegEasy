@@ -10,22 +10,6 @@
     <div class="section-inner col-lg-12">
 
         <div class="content apiBox" style="background: #EEE;">
-          <h3 class="heading">User login</h3>
-          <pre>URI       https://127.0.0.1:5000/login
-Method	  POST
-Data	  {
-              "username": "yourusername",
-              "password": "yourpassword"
-          }
-Result	  {
-              "username": "yourusername",
-              "email": "your@email.address",
-          }
-Error	  {
-              "login": "fail"
-          }
-          </pre>
-          <hr>
 
           <h3 class="heading">User Registration</h3>
           <pre>URI       https://127.0.0.1:5000/registration
@@ -43,9 +27,40 @@ Error	  {
           }
           </pre>
           <hr>
+
           <h3 class="heading">User Verification</h3>
-          <pre><pre>
+          <pre>URI       https://127.0.0.1:5000/verify/{vericode*}
+Method	  POST
+Data	  {
+              "username": "yourusername",
+              "password": "yourpassword"
+          }
+Result	  {
+              "username": "yourusername",
+              "email": "your@email.address",
+          }
+Error	  {
+              "Verification": "fail"
+          }</pre>
           <hr>
+
+          <h3 class="heading">User login</h3>
+          <pre>URI       https://127.0.0.1:5000/login
+Method	  POST
+Data	  {
+              "username": "yourusername",
+              "password": "yourpassword"
+          }
+Result	  {
+              "username": "yourusername",
+              "email": "your@email.address",
+          }
+Error	  {
+              "login": "fail"
+          }
+          </pre>
+          <hr>
+
           <h3 class="heading">Search online recipes</h3>
           <pre>URI       https://127.0.0.1:5000/recipes or https://127.0.0.1:5000/recipesmember
                 Method	  POST (client app only, server side is not needed)
@@ -73,24 +88,82 @@ Result	[
           {
             "recipe_id": 37121,
             "f2f_url": "http://food2fork.com/view/37121",
-            "image_url": "OneRepublic",
+            "image_url": "http://static.food2fork.com/vegetarianspinachmushroomlasagnaa520300x200b716718e.jpg",
             "title": "Vegetarian Spinach and Mushroom Lasagna  ",
           },
           {
             "recipe_id": 4b804e,
             "f2f_url": "http://food2fork.com/view/4b804e",
-            "image_url": "OneRepublic",
+            "image_url": "http://static.food2fork.com/9534617d6b.jpg",
             "title": "I've Lost My Noodle Vegetarian Lasagna  ",
           }
 ]
 Error	{
 }</pre>
           <hr>
+
           <h3 class="heading">Add items into favourite list</h3>
-          <pre></pre>
+          <pre>URI       https://127.0.0.1:5000/addfavlist
+Method	  PUT
+Data	  {
+          "username": "yourusername",
+          "add": acf219
+}
+Result	{
+    "username": "yourusername",
+    "fav": [
+    {
+      "recipe_id": 37121,
+      "f2f_url": "http://food2fork.com/view/37121",
+      "image_url": "http://static.food2fork.com/vegetarianspinachmushroomlasagnaa520300x200b716718e.jpg",
+      "title": "Vegetarian Spinach and Mushroom Lasagna  ",
+    },
+    {
+      "recipe_id": 4b804e,
+      "f2f_url": "http://food2fork.com/view/4b804e",
+      "image_url": "http://static.food2fork.com/9534617d6b.jpg",
+      "title": "I've Lost My Noodle Vegetarian Lasagna  ",
+    },
+    {
+      "recipe_id": acf219,
+      "f2f_url": "http://food2fork.com/view/acf219",
+      "image_url": "http://static.food2fork.com/6297474882_342f91744da59f.jpg",
+      "title": "Cannellini_Bean_Vegetarian_Meatballs_with_Tomato_Sauce",
+    }
+                  ]
+}
+Error	{
+    "Add": "FAIL"
+}</pre>
           <hr>
           <h3 class="heading">Remove items from favourite list</h3>
-          <pre></pre>
+          <pre>URI       https://eric-305cde.herokuapp.com/
+Method	  PUT
+Data	  {
+          "username": "yourusername",
+          "recipe_id": 4b804e
+}
+Result	{
+  "username": "yourusername",
+
+  "fav": [
+  {
+    "recipe_id": 37121,
+    "f2f_url": "http://food2fork.com/view/37121",
+    "image_url": "http://static.food2fork.com/vegetarianspinachmushroomlasagnaa520300x200b716718e.jpg",
+    "title": "Vegetarian Spinach and Mushroom Lasagna  ",
+  },
+  {
+    "recipe_id": acf219,
+    "f2f_url": "http://food2fork.com/view/acf219",
+    "image_url": "http://static.food2fork.com/6297474882_342f91744da59f.jpg",
+    "title": "Cannellini_Bean_Vegetarian_Meatballs_with_Tomato_Sauce",
+  }
+                ]
+}
+Error	{
+  "Add": "FAIL"
+}</pre>
           <hr>
 
 </div><!--//section-inner-->
