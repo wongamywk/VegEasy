@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Rajdhani' rel='stylesheet' type='text/css'>
+    <!-- Material Design Lite CSS -->
+    <link rel="stylesheet" href="../public/css/material.indigo-pink.min.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<style>
+/*-----------Simple reset-------------*/
+*{
+	margin:0;
+	padding:0;
+}
+/*-------------------------General Styles--------------------------*/
+body{
+	font:15px/1.3 'Lato', sans-serif;
+	color: #5e5b64;
+	text-align:center;
+}
+
+a, a:visited {
+	outline:none;
+	color:#389dc1;
+}
+
+a:hover{
+	text-decoration:none;
+}
+
+section, footer, header, aside, nav{
+	display: block;
+}
+
+
+/*-------------------------The search input--------------------------*/
+.bar{
+	background-color:#BC9B5D;
+
+	background-image:-webkit-linear-gradient(top, #BC9B5D;, #5392ad);
+	background-image:-moz-linear-gradient(top, #BC9B5D;, #5392ad);
+	background-image:linear-gradient(top, #BC9B5D;, #5392ad);
+
+	box-shadow: 0 1px 1px #ccc;
+	border-radius: 1px;
+	width: 400px;
+	padding: 10px;
+	margin: 30px auto 20px;
+	position:relative;
+}
+
+.bar input{
+	background:#fff no-repeat 13px 13px;
+	border: none;
+	width: 100%;
+	line-height: 19px;
+	padding: 11px 0;
+
+	border-radius: 2px;
+	box-shadow: 0 2px 8px #c4c4c4 inset;
+	text-align: left;
+	font-size: 14px;
+	font-family: inherit;
+	color: #738289;
+	font-weight: bold;
+	outline: none;
+	text-indent: 40px;
+}
+
+ul{
+	list-style: none;
+	width: 550px;
+	margin: 0 auto;
+	text-align: left;
+}
+
+ul li{
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+	overflow: hidden;
+}
+
+ul li img{
+	width:60px;
+	height:60px;
+	float:left;
+	border:none;
+}
+
+ul li p{
+	margin-left: 75px;
+	font-weight: bold;
+	padding-top: 12px;
+	color:#6e7a7f;
+}</style>
+</head>
+
+    <script>//document.write('<base href="' + document.location + '" />');</script>
+    <script data-require="angular.js@1.2.x" src="https://code.angularjs.org/1.2.16/angular.js" data-semver="1.2.16"></script>
+
+    <script src="../public/library/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+  <body ng-controller="MainCtrl">
+    <br><br><p><font size=5>Welcome! <%= userid %>, your email is <%=email%>.
+    <br><br><a href="/logout">Logout</a></font></p>
+    <div class="bar">
+    <p>  <font size=3><u>My Favourite List</u></font><br>You may search and remove your recipes from your favourite list below.</p>
+      <!-- Create a binding between the searchString model and the text field -->
+      <input type="text" ng-model="search" placeholder="Enter the name of the recipe" />
+    </div>
+
+    <ul>
+			<li ng-repeat="project in projects | filter:search">
+				<p><a href="{{project.f2f_url}}" target="_blank"><img ng-src="{{project.image_url}}" />{{project.recipe_id}}. {{project.title}}</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button confirmed-click="removeitem($index)" ng-confirm-click="Are you sure to remove this recipe from the fav list?" style="position: absolute; right: 100;" class="mdl-button mdl-js-ripple-effect mdl-button--fab mdl-button--mini-fab">
+        <i class="material-icons">delete</i>
+        </button>
+        </p>
+			</li>
+		</ul>
+
+    <script>
+
+    angular.module('plunker', ['ngRoute', 'ngResource'])
+
+
+
+    .factory('Todos', ['$http', function($http){
+        return $http.get('/editfavlist/');
+  }])
+
+// Controller
+.controller('MainCtrl', ['$scope', '$http', 'Todos', function ($scope, $http, Todos) {
+
+
+Todos.success(function(data){
+  $scope.projects = data[0].fav;
+}).error(function(data, status){
+console.log(data, status);
+$scope.projects = [];
+});
+
+$scope.removeitem = function(index){
+  var todo = $scope.projects[index].recipe_id;
+  //  Todos.remove(todo).then(function (response) {
+      $http.put('/removefavlist/' + todo, todo);
+              $scope.projects.splice(index, 1);
+};
+
+}])
+
+.directive('ngConfirmClick', [
+        function(){
+            return {
+                link: function (scope, element, attr) {
+                    var msg = attr.ngConfirmClick || "Are you sure?";
+                    var clickAction = attr.confirmedClick;
+                    element.bind('click',function (event) {
+                        if ( window.confirm(msg) ) {
+                            scope.$eval(clickAction)
+                        }
+                    });
+                }
+            };
+    }])
+
+</script>
+  </body>
+
+</html>

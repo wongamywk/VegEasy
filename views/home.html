@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+<style>
+body {
+    margin: 0px;
+    padding: 0px;
+     height: auto;
+}
+
+#body-wrap {
+min-height: 100%;
+height: auto;
+height: 100%;
+/*margin: 0 auto -300px; /* the bottom margin is the negative value of the footer's   height */
+ }
+
+.carousel {
+    position: relative;
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.64);
+    margin-top: 0px;
+}
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-open:checked + .carousel-item {
+    position: static;
+    opacity: 100;
+}
+
+.carousel-item {
+    position: absolute;
+    opacity: 0;
+    -webkit-transition: opacity 0.6s ease-out;
+    transition: opacity 0.6s ease-out;
+}
+
+.carousel-item img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.carousel-control {
+    background: rgba(0, 0, 0, 0.28);
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: none;
+    font-size: 40px;
+    height: 40px;
+    line-height: 35px;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+    cursor: pointer;
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    text-align: center;
+    width: 40px;
+    z-index: 10;
+}
+
+.carousel-control.prev {
+    left: 2%;
+}
+
+.carousel-control.next {
+    right: 2%;
+}
+
+.carousel-control:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: #aaaaaa;
+}
+
+#carousel-1:checked ~ .control-1,
+#carousel-2:checked ~ .control-2,
+#carousel-3:checked ~ .control-3 {
+    display: block;
+}
+
+.carousel-indicators {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    bottom: 2%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+}
+
+.carousel-indicators li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.carousel-bullet {
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 35px;
+}
+
+.carousel-bullet:hover {
+    color: #aaaaaa;
+}
+
+#carousel-1:checked ~ .control-1 ~ .carousel-indicators li:nth-child(1) .carousel-bullet,
+#carousel-2:checked ~ .control-2 ~ .carousel-indicators li:nth-child(2) .carousel-bullet,
+#carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
+    color: #428bca;
+}
+
+#title {
+    width: 100%;
+    position: absolute;
+    padding: 0px;
+    margin: 0px auto;
+    text-align: center;
+    font-size: 27px;
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Open Sans', sans-serif;
+    z-index: 9999;
+   /* text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), -1px 0px 2px rgba(255, 255, 255, 0);*/
+}
+
+.Row
+{
+ position: relative;
+     color: #BC9B5D;
+    display: table;
+        width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 10px; /*Optional*/
+    background-color: black;
+        font-size: 20px;
+}
+.Column
+{
+    display: table-cell;
+ text-align: center;
+    font-size: 15px;
+    color: #BC9B5D;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+    background-color: black;
+}
+
+.im-centered { margin: auto; height: auto;}
+
+</style>
+</head>
+<body>
+<div id="body-wrap">
+<div class="carousel">
+ <div class="carousel-inner" role="listbox" style=" width:100%; height: 600px !important;">
+        <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
+        <div class="carousel-item">
+            <img src="../public/image/3.jpg">
+        </div>
+        <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
+        <div class="carousel-item">
+            <img src="../public/image/sushi2.jpg">
+        </div>
+        <input class="carousel-open" type="radio" id="carousel-3" name="carousel" aria-hidden="true" hidden="">
+        <div class="carousel-item">
+            <img src="../public/image/5.jpg">
+        </div>
+        <label for="carousel-3" class="carousel-control prev control-1">‹</label>
+        <label for="carousel-2" class="carousel-control next control-1">›</label>
+        <label for="carousel-1" class="carousel-control prev control-2">‹</label>
+        <label for="carousel-3" class="carousel-control next control-2">›</label>
+        <label for="carousel-2" class="carousel-control prev control-3">‹</label>
+        <label for="carousel-1" class="carousel-control next control-3">›</label>
+        <ol class="carousel-indicators">
+            <li>
+                <label for="carousel-1" class="carousel-bullet">•</label>
+            </li>
+            <li>
+                <label for="carousel-2" class="carousel-bullet">•</label>
+            </li>
+            <li>
+                <label for="carousel-3" class="carousel-bullet">•</label>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="im-centered">
+
+<div class="Row">
+    <br><br>
+<font size="20"><b>About Veg Easy</b></font>
+<br>
+<br>
+Tentatively opening in the end of 2017, Veg Easy,
+a new vegetarian restaurant will be launched in Wan Chai.
+We will do our best to bring everyone of you another extraordinary experience in meatless dishes,
+together with our top quality of services.  We will cater to our customers with
+a menu of International vegetarian cuisines which includes soups, salads, main dishes and our special coffee and floral tea.
+Our menu is going to change frequently to reflect the best produce of the season.
+
+
+<br><br><font size="20"><b>Our Core Values</b></font>
+<br>
+<br><br><b>{Healthy}</b> - We serve meatless meals using 100% natural and healthy ingredients and free from animals.
+<br><br><b>{Service}</b> - Every customer will be served as our VIP, a friend and a partner.
+<br><br><b>{Happiness}</b> - Provide joyful experiences for customers, employees, friends, and families.
+
+<br><br><br>Check out our online menu and stay tuned!</font><br><br>
+</div>
+
+<div align="center" class="Row">
+    <div align="center" class="Column">
+    <p><u>Veg Easy (HK)</u></p>
+<p>Mon – Fri<br>
+  08:30am – 03:00pm<br>
+  06:00pm – 10:30pm</p>
+<p>Sat – Sun<br>
+  08:30am – 10:30pm<br>
+  </div>
+
+    <div align="center" class="Column">
+ <u>Full Address</u><br><br>
+  Room 1003, 10/F<br>
+  VTC Tower,<br>
+  27 Wood Road,<br>
+  Wan Chai, HK<br></div>
+
+    <div align="center" class="Column">
+     <u>Contact</u><br><br>
+     +852 2123 2123<br>
+  +852 2321 9123<br>
+  info@vegeasy_justfortesting.notreal</div>
+
+</div>
+</div>
+<div align="center" class="Row">
+
+<div class="row">
+                <a href="https://www.facebook.com/DiningConceptsHK" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a></li>
+                <a href="https://twitter.com/DiningConcepts_" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></a></li>
+            <a href="https://www.youtube.com/channel/UC5i9sEy3-yzD9qMPYkkTQxw" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-youtube fa-stack-1x fa-inverse"></i></span></a></li>
+                    <a href="https://www.instagram.com/diningconceptshk/" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>
+                    <a href="http://weibo.com/6029763593/profile?topnav=1&amp;wvr=6&amp;is_all=1" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-weibo fa-stack-1x fa-inverse"></i></span></a></li>
+
+            </div>
+
+  </div>
+</div>
+</body>
+</html>

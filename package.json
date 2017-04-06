@@ -1,0 +1,23 @@
+{
+  "name": "VegEasy",
+  "version": "1.0.0",
+  "description": "A simple webserver with authentication built with Hapi, Hapi-auth-cookie, and Mongoose",
+  "main": "server.js",
+  "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amy Wong",
+  "dependencies": {
+    "ejs": "*",
+    "hapi": "^10.4.0",
+    "hapi-auth-cookie": "^3.1.0",
+    "joi": "^6.9.0",
+    "mongoose": "^4.1.11",
+    "passport-local-mongoose": "^3.1.0",
+    "vision": "^3.0.0",
+    "inert":"*",
+    "nodemailer":"*",
+    "jsonfile":"*"
+
+  }
+}

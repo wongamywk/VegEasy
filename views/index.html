@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Welcome to Veg Easy!</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Rajdhani' rel='stylesheet' type='text/css'>
+<style>
+html,
+body {
+  background: black;
+  font-family: 'Lato';
+  font-size: 15px;
+  line-height: 1;
+  height: auto;
+overflow: auto;
+    position: relative;
+   color: #BC9B5D;
+
+}
+
+#map {
+    height: 400px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border: 1px solid silver;
+}
+
+header {
+  text-align: center;
+  padding: 1em;
+  color: #404D5B;
+  background-color:#F9F7F6;
+
+}
+
+header h1 {
+	font-size: 5em;
+	font-weight: light;
+	color: #BC9B5D;
+	font-family: 'Rajdhani';
+	  line-height: 0.3;
+}
+
+header h2 {
+  font-size: 1.5em;
+  font-weight: normal;
+  zoom: 1;
+  filter: alpha(opacity=50);
+  -webkit-opacity: 0.5;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+}
+
+nav {
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0em;
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+nav ul li a {
+  text-decoration: none;
+  padding: 2px;
+  font-size: 20px;
+  border: 3px solid #F9F7F6;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  text-transform: uppercase;
+  color: #404D5B;
+}
+nav ul li a.active {
+  border: 3px solid #BC9B5D;
+}
+nav ul li a:hover {
+  background: #BC9B5D;
+  color: #F9F7F6;
+}
+.content {
+  width: 100%;
+  height: auto;
+  position: relative;
+  margin: 20px auto;
+  overflow: hidden;
+}
+.content .tab {
+  overflow: hidden;
+  padding: 1em 4em;
+  height: 370px;
+  font-size: 2em;
+  line-height: 1.4;
+    background: black;
+}
+.content .tab1 {
+    width: 100%;
+  color: #B4B4B4;
+}
+.content .tab2 {
+  background: black;
+}
+.content .tab3 {
+ background: #bbc3c3;
+      color: #404D5B;
+    width: 100%;
+}
+.content .tab4 {
+ background: #bbc3c3;
+      color: #404D5B
+}
+.slide-left.ng-enter,
+.slide-left.ng-leave,
+.slide-right.ng-enter,
+.slide-right.ng-leave,
+.slide-top.ng-enter,
+.slide-top.ng-leave,
+.slide-bottom.ng-enter,
+.slide-bottom.ng-leave {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.slide-left.ng-enter.ng-enter-active {
+  -webkit-transform: translateX(0px);
+  -moz-transform: translateX(0px);
+  -ms-transform: translateX(0px);
+  -o-transform: translateX(0px);
+  transform: translateX(0px);
+}
+.slide-left.ng-leave {
+  z-index: 100;
+  -webkit-transform: translateX(0px);
+  -moz-transform: translateX(0px);
+  -ms-transform: translateX(0px);
+  -o-transform: translateX(0px);
+  transform: translateX(0px);
+}
+.slide-left.ng-leave-active {
+  -webkit-transform: translateX(-100%);
+  -moz-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  -o-transform: translateX(-100%);
+  transform: translateX(-100%);
+}
+.slide-right.ng-enter {
+  -webkit-transform: translateX(-100%);
+  -moz-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  -o-transform: translateX(-100%);
+  transform: translateX(-100%);
+}
+.slide-right.ng-enter-active {
+  position: absolute;
+  -webkit-transform: translateX(0px);
+  -moz-transform: translateX(0px);
+  -ms-transform: translateX(0px);
+  -o-transform: translateX(0px);
+  transform: translateX(0px);
+}
+.slide-right.ng-leave-active {
+  -webkit-transform: translateX(100%);
+  -moz-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -o-transform: translateX(100%);
+  transform: translateX(100%);
+}
+.slide-top.ng-enter {
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  -o-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+.slide-top.ng-enter-active {
+  position: absolute;
+  -webkit-transform: translateY(0px);
+  -moz-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  -o-transform: translateY(0px);
+  transform: translateY(0px);
+}
+.slide-top.ng-leave-active {
+  -webkit-transform: translateY(100%);
+  -moz-transform: translateY(100%);
+  -ms-transform: translateY(100%);
+  -o-transform: translateY(100%);
+  transform: translateY(100%);
+}
+.slide-bottom.ng-enter-active {
+  -webkit-transform: translateY(0px);
+  -moz-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  -o-transform: translateY(0px);
+  transform: translateY(0px);
+}
+.slide-bottom.ng-leave {
+  z-index: 100;
+  -webkit-transform: translateY(0px);
+  -moz-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  -o-transform: translateY(0px);
+  transform: translateY(0px);
+}
+.slide-bottom.ng-leave-active {
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  -o-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+  </style>
+</head>
+<body ng-app="DemoApp">
+
+	<div ng-controller="DemoController" class="header-cont">
+
+		<header>
+		<nav class="navbar-fixed-top">
+			<h1>Veg Easy</h1>
+			<ul>
+				<li>
+					<a 	href="#" title="left"
+						ng-class="{active:transition=='slide-left'}" 		ng-click="left()">
+						&nbsp;Home&nbsp;
+					</a>
+				</li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<li>
+					<a 	href="#" title="right"
+						ng-class="{'active':transition=='slide-right'}" 	ng-click="right()">
+						&nbsp;Menu&nbsp;
+					</a>
+				</li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<li>
+					<a 	href="#" title="top"
+						ng-class="{'active':transition=='slide-top'}" 		ng-click="top()">
+						&nbsp;Member Zone&nbsp;
+					</a>
+				</li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<li>
+					<a 	href="#" title="bottom"
+						ng-class="{'active':transition=='slide-bottom'}" 	ng-click="bottom()">
+						&nbsp;Contact Us&nbsp;
+					</a>
+				</li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+				<li> <a class="one" href="/recipes" onclick="window.open('/recipes', 'newwindow', 'width=700,height=700');return false;">
+						&nbsp;Online Recipes&nbsp;</a>
+
+				</li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <li> <a class="one" href="/doc" onclick="window.open('/doc', 'newwindow');return false;">
+            &nbsp;!Documentations!&nbsp;</a>
+
+        </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</ul>
+
+		</nav>
+		</header>
+
+		    <div id="response"></div>
+		<div class="content">
+			<div ui-view ng-class="transition">
+				default content
+			</div>
+
+		</div>
+		<div align="center" class="footer">
+		<p><b>305CDE Assignment created by Amy Wong</p>
+		</div>
+	   </div>
+  <script data-require="angular.js@1.2.10" data-semver="1.2.10" src="../public/library/angular.min.js"></script>
+  <script data-require="angular-animate@1.2.11" data-semver="1.2.11" src="../public/library/angular-animate.min.js"></script>
+  <script src="../public/library/angular-ui-router.min.js"></script>
+<script src="../public/library/ang-uirouter.js"></script>
+
+</body>
+</html>

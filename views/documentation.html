@@ -1,0 +1,666 @@
+
+
+<html><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:900,900italic,700,700italic,400,400italic,300,300italic" rel="stylesheet" type="text/css">
+  <style>
+    html,
+    body {
+      font-family: 'Lato';
+      font-size: 15px;
+      line-height: 1;
+    }
+    h3{font-family:'Roboto';}
+    </style>
+</head>
+
+  <body><section class="projects section">
+    <div class="section-inner col-lg-12">
+
+        <div class="content apiBox" style="background: #EEE;">
+          <h3 class="heading">Package.json</h3>
+          <font size="4" style=""><p>Stores all the dependencies required for the server</p></font>
+          <pre>
+            {
+              "name": "VegEasy",
+              "version": "1.0.0",
+              "description": "A simple webserver with authentication built with Hapi, Hapi-auth-cookie, and Mongoose",
+              "main": "server.js",
+              "scripts": {
+              "test": "echo \"Error: no test specified\" && exit 1"
+              },
+              "author": "Amy Wong",
+              "dependencies": {
+                "ejs": "*",
+                "hapi": "^10.4.0",
+                "hapi-auth-cookie": "^3.1.0",
+                "joi": "^6.9.0",
+                "mongoose": "^4.1.11",
+                "passport-local-mongoose": "^3.1.0",
+                "vision": "^3.0.0",
+                "inert":"*",
+                "nodemailer":"*",
+                "jsonfile":"*"
+
+              }
+            }
+          </pre>
+          <hr>
+          <h3 class="heading">CONFIG JS</h3>
+          <font size="4" style=""><p>Stores the server and database configuration</p></font>
+          <pre>module.exports = {
+          	server: {
+              host: '127.0.0.1',
+              port: 5000
+            },
+            mongo: {
+            	host: '127.0.0.1',
+              port: 27017,
+              db: 'VegEasy',
+              username: 'aw',
+              password: '123456',
+              url : 'mongodb://<user>:<password>@<url>'
+            }
+          };
+          </pre>
+          <hr>
+
+          <h3 class="heading">Server.js</h3>
+          <font size="4" style=""><p>Starts the server</p></font>
+          <pre>var Hapi = require('hapi');
+          var Routes = require('./routes');
+          var Config = require('./config');
+          //var io = require('socket.io';)(server.listener);
+          // var User = require('./models/user').User;
+
+          // Create a server with a host and port
+          var server = new Hapi.Server();
+          server.connection({ port: Config.server.port });
+
+
+
+          // Register the plugin
+          server.register([require('hapi-auth-cookie'), require('vision'), require('inert')], function (err) {
+
+              if (err) {
+                  throw err;
+              }
+
+              // Set our strategy
+              server.auth.strategy('session', 'cookie', {
+                  password: 'worldofwalmart', // cookie secret
+                  cookie: 'session', // Cookie name
+                  isSecure: false, // required for non-https applications
+                  ttl: 24* 60 * 60 * 1000 // Set session to 1 day
+              });
+
+              // Set our view engine, we'll use ejs
+              server.views({
+                  engines: { html: require('ejs') },
+                  relativeTo: __dirname,
+                  path: __dirname + '/views'
+              });
+          });
+
+          // Print some information about the incoming request for debugging purposes
+          server.ext('onRequest', function (request, reply) {
+              console.log(request.path, request.query);
+              return reply.continue();
+          });
+
+          server.route(Routes.endpoints);
+
+          // Start the server
+          server.start(function() {
+              console.log("The server has started on port: " + server.info.port);
+          });
+
+          </pre>
+          <hr>
+          <h3 class="heading">Database JS</h3>
+            <font size="4" style=""><p>Starts up the database</p></font>
+          <pre>var Mongoose = require('mongoose');
+          var Config = require('./config');
+
+          Mongoose.Promise = global.Promise;
+          Mongoose.connect('mongodb://' + Config.mongo.host + '/' + Config.mongo.db);
+          //Mongoose.connect('mongodb://' + config.database.host + '/' + config.database.db);
+          var db = Mongoose.connection;
+          db.on('error', console.error.bind(console, 'connection error'));
+          db.once('open', function callback() {
+            console.log("Connection with database succeeded.");
+          });
+
+          exports.Mongoose = Mongoose;
+          exports.db = db;
+
+          </pre>
+          <hr>
+
+          <h3 class="heading">Routes JS</h3>
+          <pre>
+            var Pages = require('./controllers/pages');
+            var Static = require('./controllers/static');
+            var Authentication = require('./controllers/authentication');
+
+            /**
+             * Contains the list of all routes, i.e. methods, paths and the config functions
+             * that take care of the actions
+             */
+            exports.endpoints = [
+
+            //routes to dynamic pages
+            	//loads different search pages for visitors and members respectively
+            	{ method: 'GET',  path: '/recipes', 	           config: Pages.recipes},
+
+            	//for members login
+            	{ method: 'GET',   path: '/login',             	   config: Pages.login},
+            	{ method: 'POST',   path: '/login',                config: Authentication.login },
+
+            	//for members registration
+            	{ method: 'GET',   path: '/register',              config: Pages.register},
+            	{ method: 'POST',   path: '/register',             config: Authentication.register },
+
+            	//for email verfication
+            	{ method: 'GET',   path: '/verify/{vericode*}',    config: Pages.verify},
+            	{ method: 'POST',   path: '/verification',         config: Authentication.Verification },
+
+            	//loads when user logged in successfully
+            	{ method: 'GET',   path: '/success',               config: Pages.secret},
+
+            //retrieve fav list
+            	{ method: 'GET',  path: '/editfavlist/',           config: Authentication.editfavlist 	},
+            	//add/remove items in fav list
+            	{ method: 'PUT',  path: '/removefavlist/{recipe_id*}',   config: Authentication.removefav },
+            	{ method: 'PUT',  path: '/addfavlist/{recipe_id*}',      config: Authentication.addfav },
+
+            	{ method: 'GET',  path: '/logout',                        config: Authentication.logout },
+
+
+            	//routes to static pages
+            	{ method: 'GET',    path: '/',                     config: Pages.index  	},
+            	{ method: 'GET',  path: '/public/{param*}',        config: Static.public 	},
+            	{ method: 'GET',  path: '/home',                   config: Static.home 		},
+            	{ method: 'GET',  path: '/menu',                   config: Static.menu 		},
+            	{ method: 'GET',  path: '/member',                 config: Static.member 	},
+            	{ method: 'GET',  path: '/contact',                config: Static.contact },
+            	{ method: 'GET',  path: '/doc',                    config: Static.doc },
+            	//loads Google map API
+            	{ method: 'GET',  path: '/map',                    config: Static.map 		},
+
+            ];
+
+
+          </pre>
+          <hr>
+
+          <h3 class="heading">Static JS (controller 1)</h3>
+            <font size="4" style=""><p>Handlers to routes of static contents</p></font>
+          <pre>'use strict';
+
+          //loads mimetype files
+          exports.public = {
+            handler: {
+              directory: {
+                  path: './public',
+                  listing: false,
+                  index: false
+              }
+          }
+          };
+
+          //the following handles routing to static pages
+          exports.home = {
+                        handler: function (request, reply) {
+                          return reply.view('home');
+                        }
+              };
+
+          exports.menu = {
+                        handler: function (request, reply) {
+                        return reply.view('menu');
+                        }
+                  };
+
+          exports.member = {
+                          handler: function (request, reply) {
+                            return reply.view('memberzone');
+                          }
+                  };
+
+          exports.contact = {
+                            handler: function (request, reply) {
+                            return reply.view('contact');
+                            }
+                          };
+
+          exports.map = {
+                            handler:  (request, reply) => {
+                              return reply.view('map');
+                            }
+                                                          };
+
+          </pre>
+          <hr>
+
+          <h3 class="heading">Pages JS (controller 2)</h3>
+            <font size="4" style=""><p>Handlers to dynamic pages</p></font>
+          <pre>//routes to the default page
+          exports.index = {
+
+          	handler: function (request, reply) {
+          		return reply.view('index');
+          	}
+          };
+
+          /**
+           * Handles a call to /login and shows a login form
+           */
+          exports.login = {
+          	auth: {
+          		mode: 'try',
+          		strategy: 'session'
+          	},
+          	handler: function (request, reply) {
+
+          		if (request.auth.isAuthenticated) {
+          			// The user is already logged in, redirect it to the hideout
+          			//console.log(request.auth.credentials.username);
+          			return reply.redirect('/success');
+          		}
+
+             		return reply.view('login',{errorMessage: ""});
+          	}
+          };
+
+          //Allows users to save favourite list only after loggin in
+          exports.recipes = {
+          	auth: {
+          		mode: 'try',
+          		strategy: 'session'
+          	},
+          	handler: function (request, reply) {
+
+          		if (request.auth.isAuthenticated) {
+
+          			return reply.view('recipesmember', {usr: request.auth.credentials.username});
+          		}
+          		//if the visitor has not become a member yet
+          			return reply.view('recipes',{errorMessage:""});
+          	}
+                            };
+
+          //Handles a call to /verify/* and shows a verification form
+
+          exports.verify = {
+          	auth: {
+          		mode: 'try',
+          		strategy: 'session'
+          	},
+          	handler: function (request, reply) {
+
+          		if (request.auth.isAuthenticated) {
+          			// The user is already logged in, redirect it to the hideout
+          			return reply.redirect('/success');
+          		}
+
+             		return reply.view('verify',{errorMessage: ""});
+          	}
+          };
+
+          /**
+           * Handles a call to /register and shows a registration form
+           */
+          exports.register = {
+          	auth: {
+          		mode: 'try',
+          		strategy: 'session'
+          	},
+          	handler: function (request, reply) {
+
+          		if (request.auth.isAuthenticated) {
+          			// The user is already logged in, redirect it to the hideout
+          			return reply.redirect('/success');
+          		}
+
+          		return reply.view('register',{errorMessage: ""});
+          	}
+          };
+
+
+          //Handles when user has logged in successfully and shows member stuff
+          exports.secret = {
+          	auth: 'session',
+
+          	handler: function (request, reply) {
+          	//	console.log(request.auth.credentials.username);
+          		if (request.auth.isAuthenticated) {
+          		return reply.view('secrethideout', {
+          			email: request.auth.credentials.email, userid: request.auth.credentials.username
+          		});
+          	}
+          		return reply.redirect('/login',{errorMessage: "Please log in."});
+          	}
+
+          };
+
+          //loads fav list
+          exports.favlist = {
+
+          	auth: {
+          		mode: 'try',
+          		strategy: 'session'
+          	},
+          	handler: function (request, reply) {
+          		if (request.auth.isAuthenticated) {
+
+          			console.log(request.auth.credentials.username);
+          			return reply.view('favlist', usr=request.auth.credentials.username);
+          		}
+
+          			return reply.view('login',{errorMessage: "Members only. Pls login to continue."});
+          	}
+
+          };
+
+          </pre>
+          <hr>
+
+          <h3 class="heading">Authentication JS (controller 3)</h3>
+            <font size="4" style=""><p>Handlers to POST requests and the logout route</p></font>
+          <pre>var Joi = require('joi');
+          var User = require('../models/user');
+
+          /**
+           * Responds to POST /login and logs the user in, well, soon.
+           */
+          exports.login = {
+            handler: function (request, reply) {
+              User.authenticate()(request.payload.username, request.payload.password, function (err, user, passwordError) {
+
+                // There has been an error, do something with it. I just print it to console for demo purposes.
+                if (err) {
+                  console.error(err);
+                  return reply.redirect('/login');
+                }
+
+          //wrong password or username
+                if (passwordError) {
+                  // For now, just show the error and login form
+                  console.log(passwordError);
+                  return reply.view('login', {
+                    errorMessage: passwordError.message
+                  });
+                //  return reply({success:false, error:passwordError.message})
+                }
+
+          //username and password match
+                if(user){
+                  //if the account has not been verified
+                  if (user.token === 0){
+                  console.log('pls verify email');
+                  var message = "Please verify your account first";
+                  return reply.view('login', {
+                    errorMessage: message
+                  });}
+                  else{
+                    request.auth.session.set(user);
+                    console.log(request.payload.email + ' login successful and user token is' + user.token);
+                    return reply.redirect('/success');}
+                }
+
+                return reply.redirect('/login');
+
+              });
+            }
+          };
+
+          exports.Verification = {
+            handler: function (request, reply) {
+
+              User.authenticate()(request.payload.username, request.payload.password, function (err, user, passwordError) {
+
+                // There has been an error, do something with it. I just print it to console for demo purposes.
+                if (err) {
+                  console.error(err);
+                  return reply.redirect('/verify');
+                }
+
+                if (passwordError) {
+                  // For now, just show the error and login form
+                  console.log(passwordError);
+                  return reply.view('verify', {
+                    errorMessage: passwordError.message
+                  });
+                }
+
+                if (request.param.vericode != user.vericode) {
+                  // For now, just show the error and login form
+                  console.log('Verification code is not correct.');
+                  return reply.view('verify', {
+                    errorMessage: "Please verify your account by clicking the link in your email."
+                  });
+                }
+                if(user){
+                  user.token = 1; //set token to confirm verification
+                    request.auth.session.set(user);
+                    var verifymessage = request.payload.email + " has been verified";
+
+                    console.log(request.payload.email + ' login successful and user token is ' + user.token);
+                    return reply.view('secrethideout', {
+                    email: verifymessage
+                    });
+                }
+
+                return reply.redirect('/login');
+
+              });
+            }
+          };
+          /**
+           * Responds to GET /logout and logs out the user
+           */
+          exports.logout = {
+            auth: 'session',
+            handler: function (request, reply) {
+              request.auth.session.clear();
+              reply().redirect('/login');
+            }
+          };
+
+          /**
+           * Responds to POST /register and creates a new user.
+           */
+          exports.register = {
+            validate: {
+              payload: {
+                username: Joi.string().required(),
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+                password_confirm: Joi.any().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } })
+
+              }
+            },
+            handler: function(request, reply) {
+
+            //generate authentication token
+          var randToken =Math.floor((Math.random() * 100) + 54);
+
+
+              // Create a new user, this is the place where you add firstName, lastName etc.
+              // Just don't forget to add them to the validator above.
+              var newUser = new User({
+                username: request.payload.username,
+                email: request.payload.email,
+                vericode: randToken,
+                token: 0
+              });
+
+              // The register function has been added by passport-local-mongoose and takes as first parameter
+              // the user object, as second the password it has to hash and finally a callback with user info.
+              User.register(newUser, request.payload.password, function(err, user) {
+
+
+
+                // Return error if present
+                if (err) {
+                  return reply(err);
+                }
+
+          //prepare email verification link and send email
+                var link = "http://127.0.0.1:5000" + "/verify/" + randToken;
+
+          const nodemailer = require('nodemailer');
+
+          // create reusable transporter object using the default SMTP transport
+          let transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                  user: 'amy305cde@gmail.com',
+                  pass: '305CDEAssignment'
+              }
+          });
+
+          // setup email data with unicode symbols
+          let mailOptions = {
+              from: '"DO NOT REPLY" <amy305cde@gmail.com>', // sender address
+              to: request.payload.email, // list of receivers
+              subject: 'Account verification email', // Subject line
+              //text: 'Hello world ?', // plain text body
+              html: "Hello,<br> Please Click on the link to verify your email with your <u>username</u> and <u>password</u>.<br><a href=" + link + ">Click here to verify</a>"
+             }
+
+          // send mail with defined transport object
+          transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                  return console.log(error);
+              }
+              console.log('Message %s sent: %s', info.messageId, info.response);
+          });
+                console.log('registered');
+                return reply.redirect('/login');
+              });
+            }
+          };
+
+          //loads fav list
+          exports.editfavlist = {
+
+          	auth: {
+          		mode: 'try',
+          		strategy: 'session'
+          	},
+          	handler: function (request, reply) {
+
+          		if (request.auth.isAuthenticated) {
+                User.find({username: request.auth.credentials.username}, {fav:1},
+                    function (err, data) {
+                        if (err) return console.error(err);
+                        console.log(request.auth.credentials.username);
+                        console.log(data);
+                        return reply(data);
+
+                    }
+                );
+          		}else{return reply.view('login',{errorMessage: "Members only. Pls login to continue."});}
+
+          	}
+          };
+
+          // add items to favlist
+          exports.addfav = {
+
+          	auth: {
+          		mode: 'try',
+          		strategy: 'session'
+          	},
+          	handler: function (request, reply) {
+            //  console.log(request.payload.f2f_url);
+              //console.log(request.payload.image_url);
+                //  console.log(request.payload.title);
+          	if (request.auth.isAuthenticated) {
+          //use $saddtoset to avoid adding duplicated items into the fav list
+              User.update( {"username": request.auth.credentials.username}, { $addToSet: { "fav": {"recipe_id":request.params.recipe_id,"f2f_url":request.payload.f2f_url, "image_url":request.payload.image_url,"title":request.payload.title} } },
+              function (err, data) {
+                   if (err) return console.error(err);
+                  return reply(data);
+               }
+           );
+          		}else{ return reply.view('login',{errorMessage: "Members only. Pls login to continue."}); }
+          	}
+
+          };
+
+          //remove recipes items from favouritelist
+          exports.removefav = {
+
+          	auth: {
+          		mode: 'try',
+          		strategy: 'session'
+          	},
+          	handler: function (request, reply) {
+
+          		if (request.auth.isAuthenticated) {
+
+              User.update({username: request.auth.credentials.username},  { $pull: { fav: { recipe_id: request.params.recipe_id } } },
+               function (err, data) {
+                   if (err) return console.error(err);
+                  return reply(data);
+               }
+           );
+          		}else{ return reply.view('login',{errorMessage: "Members only. Pls login to continue."}); }
+          	}
+          };
+
+          </pre>
+          <hr>
+
+          <h3 class="heading">User JS (model and schema)</h3>
+          <pre>var Mongoose = require('../database').Mongoose;
+          //create the schema
+          var userSchema = new Mongoose.Schema({
+
+          	username: {
+              type: String,
+              required: true
+            },
+          	email: {
+              type: String,
+              required: true
+            },
+          	password: {
+              type: String,
+              required: true
+            },
+          	creationDate: {
+              type: Date,
+              required: true,
+              default: Date.now
+            },
+          	vericode: {
+          		type: String,
+          	},
+          	token: {
+          		type: Number,
+          		required: true
+          	},
+          	fav: [{_id:false, recipe_id: String, f2f_url: String, image_url: String, title: String }]
+
+          });
+
+          userSchema.plugin(require('passport-local-mongoose'), {
+            usernameField: 'username',
+            hashField: 'password',
+            usernameLowerCase: true
+          });
+
+          //create the model and add it to the exports
+          module.exports = Mongoose.model('User', userSchema, 'Users');
+
+          </pre>
+          <hr>
+</div><!--//section-inner-->
+</div></section></body></html>

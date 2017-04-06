@@ -1,0 +1,58 @@
+<html>
+<head>
+<style>
+h3 img {
+    max-height: 50px;
+}
+#map {
+    height: 400px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border: 1px solid silver;
+}
+</style>
+</head>
+<body>
+
+							<div id='map' style='width:400px;height:400px'></div>
+							<style>
+							#map {
+								height: 100%;
+							}
+							</style>
+
+    <div id="response"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    /*$(document).ready(function() {
+            // run an AJAX get request to the route you setup above...
+            // respect the cross-domain policy by using the same domain
+            // you used to access your index.html file!
+            $.get('http://localhost:5000/request', function(list) {
+               // alert(list);
+				$('#response').html(list); // show the list
+            });
+        });*/
+    </script>
+
+</body>
+	<script async defer
+    src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAxEJTZL1GDf2hbRw_t32gmFsdvMU0eHA4&callback=initMap'>
+    </script>
+	<script>
+		function initMap() {
+			var mapOptions = {
+				center: {lat: 22.2772112, lng: 114.1770481},
+				    streetViewControl: false,
+    			scaleControl: true,
+				zoom: 18,
+				mapTypeId: google.maps.MapTypeId.roadmap
+			}
+			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+			var marker = new google.maps.Marker({
+				position: {lat: 22.277092, lng: 114.1775638},
+				map: map,
+			});
+		}
+	</script>
+</html>
