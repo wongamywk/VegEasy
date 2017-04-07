@@ -3,7 +3,10 @@ VegEasy - 305CDE Assignment
 
 A simple webserver with authentication built with Hapi, Hapi-auth-cookie, and Mongoose
 
-(Make sure you have Mongodb installed before proceeding.)
+Make sure you have done the below before proceeding:
+1) Install Mongodb
+2) edit your gmail account and password in "/controllers/authentication.js" --> export.register
+(to test the email verification)
 
 
 ### Install an app
