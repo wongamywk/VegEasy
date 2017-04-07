@@ -1,5 +1,6 @@
-VegEasy - 305CDE Assignment
+#VegEasy - 305CDE Assignment
 ========================
+### What you can do
 
 A simple webserver of a vegetarian restaurant(which does not exist) with authentication built with Hapi, Hapi-auth-cookie, and Mongoose, users can:
 1) Search online recipes from food2fork.com (public API provider)
@@ -9,6 +10,7 @@ A simple webserver of a vegetarian restaurant(which does not exist) with authent
 
 ========================
 
+### Before proceeding
 Make sure you have done the below before proceeding:
 1) Install Mongodb
 2) edit your gmail account and password in "/controllers/authentication.js" --> export.register
