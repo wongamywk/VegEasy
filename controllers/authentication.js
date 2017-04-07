@@ -53,7 +53,7 @@ exports.Verification = {
       // There has been an error, do something with it. I just print it to console for demo purposes.
       if (err) {
         console.error(err);
-        return reply.redirect('/verify');
+        return reply.view('verify');
       }
 
       if (passwordError) {
@@ -64,22 +64,21 @@ exports.Verification = {
         });
       }
 
-      if (request.param.vericode != user.vericode) {
-        // For now, just show the error and login form
-        console.log('Verification code is not correct.');
-        return reply.view('verify', {
-          errorMessage: "Please verify your account by clicking the link in your email."
-        });
-      }
+      if(user.token === 1){
+        var verifymessage = request.payload.username + " has been verified before";
+        return reply.view('favlist', {
+      email: user.email, userid: request.payload.username + verifymessage
+      });}
+
       if(user){
         user.token = 1; //set token to confirm verification
           request.auth.session.set(user);
-          var verifymessage = request.payload.email + " has been verified";
+          var verifymessage = request.payload.username + " has been verified";
 
-          console.log(request.payload.email + ' login successful and user token is ' + user.token);
-          return reply.view('secrethideout', {
-          email: verifymessage
-          });
+          console.log(request.payload.username + ' login successful and user token is ' + user.token);
+          return reply.view('favlist', {
+      		email: user.email, userid: request.payload.username + verifymessage
+      		});
       }
 
       return reply.redirect('/login');
@@ -146,7 +145,7 @@ const nodemailer = require('nodemailer');
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'amy305cde@gmail.com',
+        user: 'youremail@gmail.com',
         pass: '305CDEAssignment'
     }
 });
@@ -168,7 +167,7 @@ transporter.sendMail(mailOptions, (error, info) => {
     console.log('Message %s sent: %s', info.messageId, info.response);
 });
       console.log('registered');
-      return reply.redirect('/login');
+      return reply.view('login', {errorMessage: 'Please check your mailbox to verify your account.'});
     });
   }
 };

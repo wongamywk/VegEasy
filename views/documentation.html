@@ -188,6 +188,7 @@
             	{ method: 'GET',  path: '/member',                 config: Static.member 	},
             	{ method: 'GET',  path: '/contact',                config: Static.contact },
             	{ method: 'GET',  path: '/doc',                    config: Static.doc },
+              { method: 'GET',  path: '/apiendpoints',           config: Static.apiendpoints },
             	//loads Google map API
             	{ method: 'GET',  path: '/map',                    config: Static.map 		},
 
@@ -437,13 +438,6 @@
                   });
                 }
 
-                if (request.param.vericode != user.vericode) {
-                  // For now, just show the error and login form
-                  console.log('Verification code is not correct.');
-                  return reply.view('verify', {
-                    errorMessage: "Please verify your account by clicking the link in your email."
-                  });
-                }
                 if(user){
                   user.token = 1; //set token to confirm verification
                     request.auth.session.set(user);
@@ -519,7 +513,7 @@
           let transporter = nodemailer.createTransport({
               service: 'gmail',
               auth: {
-                  user: 'amy305cde@gmail.com',
+                  user: 'youremail@gmail.com',
                   pass: '305CDEAssignment'
               }
           });

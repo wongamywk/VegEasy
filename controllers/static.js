@@ -42,6 +42,12 @@ exports.doc = {
                   }
               };
 
+exports.apiendpoints = {
+                  handler: function (request, reply) {
+                  return reply.view('apiendpoints');
+                  }
+              };
+
 exports.map = {
                                 handler:  (request, reply) => {
                                                   return reply.view('map');

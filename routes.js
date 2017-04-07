@@ -22,7 +22,7 @@ exports.endpoints = [
 
 	//for email verfication
 	{ method: 'GET',   path: '/verify/{vericode*}',        config: Pages.verify 		},
-	{ method: 'POST',   path: '/verification',   config: Authentication.Verification },
+	{ method: 'POST',   path: '/verify/verify',   config: Authentication.Verification },
 
 	//loads when user logged in successfully
 	{ method: 'GET',   path: '/success', 											config: Pages.secret   	},
@@ -44,6 +44,7 @@ exports.endpoints = [
 	{ method: 'GET',  path: '/member', 						 config: Static.member 	},
 	{ method: 'GET',  path: '/contact', 					 config: Static.contact },
 	{ method: 'GET',  path: '/doc', 					 		 config: Static.doc },
+	{ method: 'GET',  path: '/apiendpoints',			 config: Static.apiendpoints },
 	//loads Google map API
 	{ method: 'GET',  path: '/map', 							 config: Static.map 		},
 
