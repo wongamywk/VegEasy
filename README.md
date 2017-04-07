@@ -2,7 +2,7 @@
 ========================
 ### What you can do
 
-A simple webserver of a vegetarian restaurant(which does not exist) with authentication built with Hapi, Hapi-auth-cookie, and Mongoose, users can:
+A simple webserver of a vegetarian restaurant(which does not exist) with authentication built with Hapi, Hapi-auth-cookie, and Mongoose. Users can:
 1) Search online recipes from food2fork.com (public API provider)
 2) Add recipes to their favourite list (members only)
 3) delete recipes from their favourite list (members only)
