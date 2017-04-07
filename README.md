@@ -8,6 +8,7 @@ A simple webserver of a vegetarian restaurant(which does not exist) with authent
 4) view the location of the restaurant (using Google Map API)
 
 ========================
+
 Make sure you have done the below before proceeding:
 1) Install Mongodb
 2) edit your gmail account and password in "/controllers/authentication.js" --> export.register
