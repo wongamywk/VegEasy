@@ -7,8 +7,9 @@ A simple webserver of a vegetarian restaurant(which does not exist) with authent
 2) Add recipes to their favourite list (members only)
 3) delete recipes from their favourite list (members only)
 4) view the location of the restaurant (using Google Map API)
-
+ 
 Note: All images are provided by me. I am a food lover therefore reference is not required.
+ 
 ========================
 
 ### Before proceeding
