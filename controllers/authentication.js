@@ -71,10 +71,18 @@ exports.Verification = {
       });}
 
       if(user){
-        user.token = 1; //set token to confirm verification
           request.auth.session.set(user);
           var verifymessage = request.payload.username + " has been verified";
+	      
+	      //set token to confirm verification
+          User.update( {"username": request.payload.username}, { $set: { token: "1" } },
+          function (err, data) {
+              if (err) return console.error(err);
+              console.log(request.payload.username);
+              console.log(data);
 
+          }
+        );
           console.log(request.payload.username + ' login successful and user token is ' + user.token);
           return reply.view('favlist', {
       		email: user.email, userid: request.payload.username + verifymessage
